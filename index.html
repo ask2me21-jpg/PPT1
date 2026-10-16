@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soft Skills & Interview Prep · Dr. Sachin Ambekar</title>
+  <style>
+    /* ============ RESET & TOKENS ============ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --brand: #4f46e5;
+      --brand-dark: #3730a3;
+      --brand-light: #eef2ff;
+      --ink: #0f172a;
+      --ink-light: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --gold: #f59e0b;
+      --gold-light: #fffbeb;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0f172a;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(79,70,229,0.3), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(55,48,163,0.3), transparent 45%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      color: var(--ink);
+    }
+
+    /* ============ APP SHELL ============ */
+    .app {
+      width: 1300px;
+      max-width: 100%;
+      height: 820px;
+      max-height: calc(100vh - 40px);
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ============ SLIDES ============ */
+    .slides {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 36px 48px;
+      display: none; /* Handled by JS */
+      flex-direction: column;
+      background: var(--white);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+      z-index: 2;
+    }
+
+    /* Custom Scrollbar for slides */
+    .slide::-webkit-scrollbar { width: 6px; }
+    .slide::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .slide::-webkit-scrollbar-track { background: transparent; }
+
+    /* ============ HEADER ============ */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .header-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 8px 16px -4px rgba(79,70,229,0.4);
+    }
+
+    .header-icon.green { background: linear-gradient(135deg, #34d399, var(--green)); box-shadow: 0 8px 16px -4px rgba(16,185,129,0.4); }
+    .header-icon.red { background: linear-gradient(135deg, #f87171, var(--red)); box-shadow: 0 8px 16px -4px rgba(239,68,68,0.4); }
+    .header-icon.gold { background: linear-gradient(135deg, #fbbf24, var(--gold)); box-shadow: 0 8px 16px -4px rgba(245,158,11,0.4); }
+
+    .slide-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slide-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+
+    /* ============ LAYOUTS ============ */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .stack { display: flex; flex-direction: column; gap: 16px; }
+
+    /* ============ CARDS & PANELS ============ */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 2px 8px -2px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      background: var(--brand-light);
+      color: var(--brand);
+    }
+    .card-icon.green { background: var(--green-light); color: var(--green); }
+    .card-icon.red { background: var(--red-light); color: var(--red); }
+    .card-icon.gold { background: var(--gold-light); color: var(--gold); }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--ink-light);
+    }
+
+    /* Lists */
+    .li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+    .li:last-child { margin-bottom: 0; }
+    .li-icon {
+      flex-shrink: 0;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--brand);
+    }
+    .li-icon.green { color: var(--green); }
+    .li-icon.red { color: var(--red); }
+    .li strong { color: var(--ink); font-weight: 700; }
+
+    /* Panels */
+    .panel {
+      border-radius: 12px;
+      padding: 16px 20px;
+      border-left: 4px solid;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .panel p { margin: 0; }
+    .panel.blue { background: var(--brand-light); border-color: var(--brand); color: var(--brand-dark); }
+    .panel.green { background: var(--green-light); border-color: var(--green); color: #064e3b; }
+    .panel.red { background: var(--red-light); border-color: var(--red); color: #7f1d1d; }
+    .panel.gold { background: var(--gold-light); border-color: var(--gold); color: #78350f; }
+
+    /* Tags */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--bg);
+      color: var(--ink-light);
+      border: 1px solid var(--line);
+    }
+
+    /* Timeline */
+    .tl { display: flex; gap: 14px; margin-bottom: 16px; }
+    .tl:last-child { margin-bottom: 0; }
+    .tl-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .tl-icon.green { background: var(--green-light); color: var(--green); }
+    .tl-icon.red { background: var(--red-light); color: var(--red); }
+    .tl-icon.blue { background: var(--brand-light); color: var(--brand); }
+    .tl-text { font-size: 0.9rem; line-height: 1.5; color: var(--ink-light); padding-top: 4px; }
+
+    /* Steps */
+    .step { text-align: center; padding: 24px 16px; }
+    .step-num {
+      width: 40px; height: 40px; margin: 0 auto 12px;
+      border-radius: 12px; display: grid; place-items: center;
+      font-size: 1.1rem; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    }
+    .step h3 { font-size: 0.95rem; margin-bottom: 6px; }
+    .step p { font-size: 0.8rem; color: var(--muted); }
+
+    /* Family Visual */
+    .family {
+      display: flex; align-items: center; justify-content: center; gap: 24px;
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 16px; padding: 24px; margin: 16px 0;
+    }
+    .fam-item { text-align: center; }
+    .fam-icon {
+      width: 54px; height: 54px; margin: 0 auto 8px;
+      border-radius: 14px; display: grid; place-items: center;
+      background: var(--white); border: 1px solid var(--line);
+      font-size: 1.4rem; box-shadow: 0 2px 8px -2px rgba(0,0,0,0.05);
+    }
+    .fam-item span { font-size: 0.8rem; font-weight: 700; color: var(--ink-light); }
+    .fam-arrow { color: var(--muted); font-size: 1.2rem; }
+
+    /* Script Box */
+    .script {
+      background: var(--brand-light);
+      border: 1px solid #c7d2fe;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .script-part { padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px dashed #a5b4fc; }
+    .script-part:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+    .script-label {
+      display: inline-block; font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: #fff; background: var(--brand);
+      padding: 4px 12px; border-radius: 100px; margin-bottom: 8px;
+    }
+    .script p { font-size: 1rem; line-height: 1.7; color: #1e1b4b; }
+    .script strong { color: var(--brand); font-weight: 700; }
+
+    /* Cover Slide */
+    .cover { display: flex; gap: 40px; align-items: center; flex: 1; }
+    .cover-photo {
+      width: 200px; height: 200px; border-radius: 50%;
+      object-fit: cover; border: 5px solid var(--white);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+      background: var(--bg);
+    }
+    .cover-info h1 {
+      font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--ink); line-height: 1.1; margin-bottom: 8px;
+    }
+    .cover-role {
+      font-size: 1.1rem; font-weight: 600; color: var(--brand);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .cover-desc {
+      font-size: 0.95rem; line-height: 1.6; color: var(--ink-light);
+      max-width: 600px; margin-bottom: 24px;
+    }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 600px; }
+    .stat {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px; text-align: center;
+    }
+    .stat-num { font-size: 1.4rem; font-weight: 800; color: var(--brand); }
+    .stat-lbl { font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-top: 4px; }
+
+    /* ============ FOOTER ============ */
+    .footer {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      z-index: 10;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 0.85rem; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    }
+    .brand-text { display: flex; flex-direction: column; }
+    .brand-text strong { font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+    .brand-text span { font-size: 0.7rem; color: var(--muted); }
+
+    .dots { display: flex; gap: 8px; align-items: center; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #cbd5e1; border: none; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .dot.active {
+      width: 24px; border-radius: 10px;
+      background: var(--brand);
+    }
+
+    .nav-arrows { display: flex; gap: 10px; }
+    .nav-btn {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--white); border: 1px solid var(--line);
+      color: var(--ink); cursor: pointer; font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--brand); color: #fff; border-color: var(--brand);
+    }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1024px) {
+      .app { height: auto; max-height: none; border-radius: 0; }
+      .slide { padding: 24px; }
+      .cover { flex-direction: column; text-align: center; gap: 24px; }
+      .cover-role { justify-content: center; }
+      .cover-desc { margin: 0 auto 24px; }
+      .stats { margin: 0 auto; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .slide-header h2 { font-size: 1.2rem; white-space: normal; }
+      .footer { padding: 12px 20px; }
+      .brand-text span { display: none; }
+      .dots { display: none; }
+    }
+    @media (max-width: 600px) {
+      .grid-4 { grid-template-columns: 1fr; }
+      .cover-info h1 { font-size: 2rem; }
+      .cover-photo { width: 140px; height: 140px; }
+      .header-icon { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Slides Container -->
+  <div class="slides" id="slidesContainer">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide active">
+      <div class="cover">
+        <img class="cover-photo" src="https://sachinambekar.netlify.app/assets/images/untitled-design-18-940x788.webp" alt="Dr. Sachin Ambekar" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'200\' height=\'200\' fill=\'%23e2e8f0\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' fill=\'%2364748b\' dy=\'.3em\'>SA</text></svg>'">
+        <div class="cover-info">
+          <div style="display:inline-block; padding:6px 16px; background:var(--brand-light); color:var(--brand); border-radius:100px; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:16px;">Soft Skills &amp; Interview Preparation</div>
+          <h1>Dr. Sachin Ambekar</h1>
+          <div class="cover-role">
+            <span>Career Mentor</span>
+            <span>•</span>
+            <span>Placement Consultant</span>
+            <span>•</span>
+            <span>Corporate Relations Strategist</span>
+          </div>
+          <p class="cover-desc">
+            Enriched experience in IT as HR &amp; Talent Acquisition. Served as <strong>Director – Placement &amp; Corporate Relations</strong> at various B.Tech and MCA premier institutes in Pune. Guiding freshers to become confident, job-ready professionals.
+          </p>
+          <div class="stats">
+            <div class="stat"><div class="stat-num">20+</div><div class="stat-lbl">Years Experience</div></div>
+            <div class="stat"><div class="stat-num">5000+</div><div class="stat-lbl">Students Mentored</div></div>
+            <div class="stat"><div class="stat-num">100+</div><div class="stat-lbl">Corporate Ties</div></div>
+            <div class="stat"><div class="stat-num">PhD</div><div class="stat-lbl">HRM &amp; Talent Dev.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: MARKET -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">📊</div>
+          <h2>IT Market for Freshers — India &amp; Global</h2>
+        </div>
+        <span class="slide-num">02 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="card-icon gold">🇮🇳</div>
+          <h3>India Opportunity</h3>
+          <div class="li"><span class="li-icon green">✔</span><span>IT industry is a <strong>major job creator</strong> for freshers.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Top cities: <strong>Bangalore, Pune, Hyderabad, Chennai, Noida</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Hiring across <strong>service &amp; product companies</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Growth areas: <strong>AI, Cloud, Cybersecurity, Data</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Average starting salary: <strong>₹3–8 LPA</strong> (varies).</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">🌍</div>
+          <h3>Global Opportunity</h3>
+          <div class="li"><span class="li-icon green">✔</span><span>Remote work opens <strong>global opportunities</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>High demand in <strong>US, Europe, Canada, Australia</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Outsourcing &amp; offshoring create <strong>jobs in India</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Global firms hire Indian freshers for <strong>remote roles</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span><strong>Soft skills &amp; English</strong> are essential globally.</span></div>
+        </div>
+      </div>
+      <div class="panel green" style="margin-top:20px;">
+        <p>💡 <strong>Opportunity is huge — but competition is tough. Prepare well!</strong></p>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: REALITY CHECK -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon red">⚠️</div>
+          <h2>Reality Check: Are We Prepared?</h2>
+        </div>
+        <span class="slide-num">03 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="card-icon green">🏢</div>
+          <h3>What Companies Want</h3>
+          <div class="li"><span class="li-icon green">✔</span><span><strong>Quality people</strong> — not just fillers.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Problem-solvers who <strong>think on their feet</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Clear communicators and <strong>team players</strong>.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>People who <strong>learn fast</strong> and adapt.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Attitude and a <strong>willingness to grow</strong>.</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon red">🚫</div>
+          <h3>The Hard Truth</h3>
+          <div class="li"><span class="li-icon red">✖</span><span>Many freshers have <strong>degrees but lack soft skills</strong>.</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>Technical knowledge alone is <strong>not enough</strong>.</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>Candidates who <strong>can't communicate</strong> get rejected.</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>Competition is tough — <strong>only the best prepared get hired</strong>.</span></div>
+        </div>
+      </div>
+      <div class="panel red" style="margin-top:20px;">
+        <p>💡 <strong>Companies prefer quality over quantity — fewer, better hires, not just numbers. This is exactly why soft skills matter more than ever.</strong></p>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: WHY SOFT SKILLS -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">⭐</div>
+          <h2>Why Soft Skills Matter in IT</h2>
+        </div>
+        <span class="slide-num">04 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Industry Reality</h3>
+          <div class="li"><span class="li-icon green">✔</span><span><strong>77% of hiring managers</strong> say soft skills are just as important as technical skills.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Technical skills can be taught. <strong>Soft skills are harder to teach</strong> after hiring.</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Companies hire for <strong>attitude and communication</strong> — then train for tech.</span></div>
+          <div class="panel blue" style="margin-top:16px;">
+            <p>💬 Hiring managers say communication, teamwork and willingness to learn play a <strong>big role</strong> in hiring decisions.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon">👥</div>
+          <h3>Top Soft Skills IT Companies Want</h3>
+          <div class="tags" style="margin-top:8px;">
+            <span class="tag">Communication</span>
+            <span class="tag">Teamwork</span>
+            <span class="tag">Problem-Solving</span>
+            <span class="tag">Adaptability</span>
+            <span class="tag">Time Management</span>
+            <span class="tag">Emotional Intelligence</span>
+            <span class="tag">Critical Thinking</span>
+            <span class="tag">Collaboration</span>
+          </div>
+          <p style="margin-top:16px; font-size:0.85rem; color:var(--muted);">These skills separate a good employee from a great one. They decide how well you work with clients, managers and teams.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SOFT SKILLS FOR FRESHERS -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon gold">💡</div>
+          <h2>Soft Skills for IT Freshers</h2>
+        </div>
+        <span class="slide-num">05 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon">💬</div>
+            <h3>Communication</h3>
+            <p>Explain technical ideas in simple language. Listen carefully. Write clear emails and documents.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Collaboration</h3>
+            <p>Work well in teams. Share credit. Help others. IT is never a solo job.</p>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon">🧠</div>
+            <h3>Problem-Solving</h3>
+            <p>Break down problems. Think logically. Stay calm under pressure.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🌱</div>
+            <h3>Growth Mindset</h3>
+            <p>Be curious. Accept feedback. Never stop learning. Freshers are hired for potential.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: SELF INTRO FRAMEWORK -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">👤</div>
+          <h2>Tell Me About Yourself — 4 Parts</h2>
+        </div>
+        <span class="slide-num">06 / 17</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px;">
+        <div class="panel blue">
+          <p>⏱ <strong>Keep it 60–90 seconds.</strong> Make it simple and clear.</p>
+        </div>
+        <div class="grid-4">
+          <div class="card step"><div class="step-num">1</div><h3>Who You Are</h3><p>Name, city, degree</p></div>
+          <div class="card step"><div class="step-num">2</div><h3>Family Background</h3><p>Small family, parents' work</p></div>
+          <div class="card step"><div class="step-num">3</div><h3>What You Bring</h3><p>Projects, skills, learning</p></div>
+          <div class="card step"><div class="step-num">4</div><h3>Why This Role</h3><p>Why this job / company</p></div>
+        </div>
+        <div class="panel green">
+          <p>💡 Always end with: <strong>"I would be happy to answer any questions."</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: DO'S -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon green">✅</div>
+          <h2>What to Say — Do's</h2>
+        </div>
+        <span class="slide-num">07 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="stack">
+          <div class="panel green"><p>✔ <strong>Start with your name and degree</strong> — keep it short.</p></div>
+          <div class="panel green"><p>✔ <strong>Mention one good project</strong> — what it does and what you learned.</p></div>
+          <div class="panel green"><p>✔ <strong>Talk about your learning mindset</strong> — "I like to learn new things."</p></div>
+          <div class="panel green"><p>✔ <strong>Connect to the role</strong> — "My Java skills match this job."</p></div>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🎤</div>
+          <h3>How to Sound</h3>
+          <div class="li"><span class="li-icon green">✔</span><span>Confident but humble</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Clear and slow — don't rush</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Natural — don't memorize like a script</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Smile and make eye contact</span></div>
+          <div class="panel green" style="margin-top:16px;">
+            <p>💡 Practice out loud at least 10 times. Record yourself to catch filler words.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: DON'TS -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon red">❌</div>
+          <h2>What to Avoid — Don'ts</h2>
+        </div>
+        <span class="slide-num">08 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="stack">
+          <div class="panel red"><p>✖ <strong>Don't ramble</strong> — 5 minutes about everything is bad.</p></div>
+          <div class="panel red"><p>✖ <strong>Don't rush</strong> — 15 seconds sounds nervous and unprepared.</p></div>
+          <div class="panel red"><p>✖ <strong>Don't read from a script</strong> — it sounds fake and robotic.</p></div>
+          <div class="panel red"><p>✖ <strong>Don't mention irrelevant details</strong> — 10th/12th marks, unrelated hobbies.</p></div>
+          <div class="panel red"><p>✖ <strong>Don't undersell or oversell</strong> — be honest and confident.</p></div>
+        </div>
+        <div class="card">
+          <div class="card-icon red">⚠️</div>
+          <h3>Common Phrases to Avoid</h3>
+          <div class="li"><span class="li-icon red">✖</span><span>"I'm not good at anything..."</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>"I just want any job..."</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>"My big brother / small sister..."</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>"Actually... um... basically..." (filler words)</span></div>
+          <div class="li"><span class="li-icon red">✖</span><span>Negative comments about past teachers or college</span></div>
+          <div class="panel red" style="margin-top:16px;">
+            <p>💡 Never share weaknesses or put yourself down — even as a joke.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: FAMILY -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">🏠</div>
+          <h2>Introducing Family Members</h2>
+        </div>
+        <span class="slide-num">09 / 17</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px;">
+        <div class="panel blue">
+          <p>ℹ️ This question is asked to understand your <strong>values and background</strong> — not to judge your family.</p>
+        </div>
+        <div class="family">
+          <div class="fam-item"><div class="fam-icon">👨‍💼</div><span>Father</span></div>
+          <div class="fam-arrow">➔</div>
+          <div class="fam-item"><div class="fam-icon">👩</div><span>Mother</span></div>
+          <div class="fam-arrow">➔</div>
+          <div class="fam-item"><div class="fam-icon">🎓</div><span>Sibling(s)</span></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel green">
+            <p>✔ <strong>Say:</strong> "I come from a small family of four. My father is an engineer and my mother is a homemaker. I have one younger sister who is studying."</p>
+          </div>
+          <div class="panel red">
+            <p>✖ <strong>Avoid:</strong> "My big brother works in TCS and my small sister is in 10th." (Wrong words: big / small)</p>
+          </div>
+        </div>
+        <p style="font-size:0.85rem; color:var(--muted); text-align:center;">
+          💡 <strong style="color:var(--ink);">Right words:</strong> elder brother / younger sister &nbsp;·&nbsp; <strong style="color:var(--ink);">Wrong:</strong> big brother / small sister
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: QUICK GUIDE -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">📋</div>
+          <h2>Do's and Don'ts — Quick Guide</h2>
+        </div>
+        <span class="slide-num">10 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card" style="border-top:4px solid var(--green);">
+          <h3 style="color:var(--green);">👍 Do's</h3>
+          <div class="tl"><div class="tl-icon green">✔</div><div class="tl-text">Dress neatly and arrive on time.</div></div>
+          <div class="tl"><div class="tl-icon green">✔</div><div class="tl-text">Greet everyone with a smile.</div></div>
+          <div class="tl"><div class="tl-icon green">✔</div><div class="tl-text">Make gentle eye contact.</div></div>
+          <div class="tl"><div class="tl-icon green">✔</div><div class="tl-text">Speak clearly and slowly.</div></div>
+          <div class="tl"><div class="tl-icon green">✔</div><div class="tl-text">Ask thoughtful questions at the end.</div></div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--red);">
+          <h3 style="color:var(--red);">👎 Don'ts</h3>
+          <div class="tl"><div class="tl-icon red">✖</div><div class="tl-text">Don't freeze or stay silent.</div></div>
+          <div class="tl"><div class="tl-icon red">✖</div><div class="tl-text">Don't dominate or argue.</div></div>
+          <div class="tl"><div class="tl-icon red">✖</div><div class="tl-text">Don't be untidy in dress or speech.</div></div>
+          <div class="tl"><div class="tl-icon red">✖</div><div class="tl-text">Don't focus only on salary — talk about the role.</div></div>
+          <div class="tl"><div class="tl-icon red">✖</div><div class="tl-text">Don't have no opinions — show you can think.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: MISTAKES -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon red">⚠️</div>
+          <h2>Common Mistakes Freshers Make</h2>
+        </div>
+        <span class="slide-num">11 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon red">📄</div>
+            <h3>Mistake #1: Reciting Your Resume</h3>
+            <p>The interviewer already has your resume. Don't repeat marks and grades — tell them something <strong>new and interesting</strong>.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon red">🗣️</div>
+            <h3>Mistake #2: Using Wrong Words</h3>
+            <p>"Big brother" → <strong>elder brother</strong> · "Small sister" → <strong>younger sister</strong> · "Myself" → <strong>I am</strong></p>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon red">⏳</div>
+            <h3>Mistake #3: Rambling or Rushing</h3>
+            <p>5 minutes of life story or 15 seconds of mumbling — both create a bad impression. Aim for <strong>60–90 seconds</strong>.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon red">😞</div>
+            <h3>Mistake #4: Negative Self-Talk</h3>
+            <p>Never say "I'm not good at anything." Replace with <strong>"I'm learning and growing."</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: SAMPLE SCRIPT -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">💬</div>
+          <h2>Complete Sample Introduction</h2>
+        </div>
+        <span class="slide-num">12 / 17</span>
+      </div>
+      <div style="flex:1; overflow-y:auto;">
+        <div class="script">
+          <div class="script-part">
+            <span class="script-label">Part 1 · Who You Are</span>
+            <p>Hello, my name is <strong>[Your Name]</strong>. I am from <strong>[City Name]</strong>.</p>
+          </div>
+          <div class="script-part">
+            <span class="script-label">Part 2 · Family Background</span>
+            <p>I come from a small and happy family. My father is a <strong>[occupation]</strong> and my mother is a <strong>[homemaker / occupation]</strong>. I have one younger sister who is studying in <strong>[class / college]</strong>.</p>
+          </div>
+          <div class="script-part">
+            <span class="script-label">Part 3 · What You Bring</span>
+            <p>I am a final-year Computer Science student at <strong>[College Name]</strong>. I built a task management web app using React and Node.js. More than <strong>200 students</strong> in my college used it. This project taught me <strong>problem-solving and teamwork</strong>. I am a curious learner and I keep improving my skills through projects and online courses.</p>
+          </div>
+          <div class="script-part">
+            <span class="script-label">Part 4 · Why This Role</span>
+            <p>I am excited about this opportunity because my background in full-stack development matches this role. I want to contribute to a real product team and learn from experienced people.</p>
+          </div>
+          <div class="script-part">
+            <p style="color:var(--brand); font-weight:700;">I would be happy to answer any further questions. Thank you.</p>
+          </div>
+        </div>
+        <div class="tags" style="margin-top:16px; justify-content:center;">
+          <span class="tag">✔ Simple words</span>
+          <span class="tag">✔ 60–90 seconds</span>
+          <span class="tag">✔ Includes family</span>
+          <span class="tag">✔ Natural ending</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: TOP QUESTIONS -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">❓</div>
+          <h2>Top Interview Questions for IT Freshers</h2>
+        </div>
+        <span class="slide-num">13 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="li"><span class="li-icon">•</span><span><strong>Tell me about yourself.</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Why should we hire you?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>What are your strengths and weaknesses?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Where do you see yourself in 3 years?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Describe a challenging project you worked on.</strong></span></div>
+        </div>
+        <div class="card">
+          <div class="li"><span class="li-icon">•</span><span><strong>How do you handle feedback?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Tell me about a time you made a mistake.</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>What do you hope to learn in your first 6 months?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Why do you want to work with us?</strong></span></div>
+          <div class="li"><span class="li-icon">•</span><span><strong>Do you have any questions for us?</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: HOW TO ANSWER -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">💡</div>
+          <h2>How to Answer "Tell Me About Yourself"</h2>
+        </div>
+        <span class="slide-num">14 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>What Interviewers Really Want</h3>
+          <div class="li"><span class="li-icon green">✔</span><span>Does your background match what they need?</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Can you communicate clearly?</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Will you fit into the team?</span></div>
+          <div class="panel blue" style="margin-top:16px;">
+            <p>Think of it as: <strong>"Walk me through your journey into tech, what you're good at, and why you're here."</strong></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>Simple Structure</h3>
+          <div class="tl"><div class="tl-icon blue">1</div><div class="tl-text"><strong>Who you are</strong> — name, city, degree.</div></div>
+          <div class="tl"><div class="tl-icon blue">2</div><div class="tl-text"><strong>Family background</strong> — small family, parents' work.</div></div>
+          <div class="tl"><div class="tl-icon blue">3</div><div class="tl-text"><strong>What you bring</strong> — project, skills, learning.</div></div>
+          <div class="tl"><div class="tl-icon blue">4</div><div class="tl-text"><strong>Why this role</strong> — connect to the job.</div></div>
+          <div class="panel green" style="margin-top:16px;">
+            <p>✔ Close with: <em>"I'd be happy to answer any questions."</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: PREP TIPS -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon gold">🏋️</div>
+          <h2>Soft Skills Preparation Tips</h2>
+        </div>
+        <span class="slide-num">15 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon">✍️</div>
+            <h3>Write &amp; Practice</h3>
+            <div class="li"><span class="li-icon green">✔</span><span>Write your introduction and practice aloud.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Record yourself — catch filler words.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Time it — aim for 60–90 seconds.</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Mock Interviews</h3>
+            <div class="li"><span class="li-icon green">✔</span><span>Practice with friends or seniors.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Get feedback on body language.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Ask about clarity and confidence.</span></div>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-icon">👁️</div>
+            <h3>Non-Verbal Cues</h3>
+            <div class="li"><span class="li-icon green">✔</span><span>Maintain eye contact (not staring).</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Smile naturally.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Sit upright, hands relaxed.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Avoid fidgeting or looking down.</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon">📚</div>
+            <h3>Research &amp; Prepare</h3>
+            <div class="li"><span class="li-icon green">✔</span><span>Research the company and role.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Prepare 2–3 questions to ask.</span></div>
+            <div class="li"><span class="li-icon green">✔</span><span>Know your resume inside-out.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: RESOURCES -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">🛠️</div>
+          <h2>Practice &amp; Resources</h2>
+        </div>
+        <span class="slide-num">16 / 17</span>
+      </div>
+      <div class="grid-2" style="flex:1;">
+        <div class="card">
+          <div class="card-icon">🎥</div>
+          <h3>Self-Recording Exercise</h3>
+          <p style="margin-bottom:12px;">Record your self-introduction on your phone. Watch it back. Note:</p>
+          <div class="li"><span class="li-icon">•</span><span>Are you rushing?</span></div>
+          <div class="li"><span class="li-icon">•</span><span>Do you use filler words?</span></div>
+          <div class="li"><span class="li-icon">•</span><span>Is your body language open?</span></div>
+          <div class="li"><span class="li-icon">•</span><span>Does it sound natural?</span></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>Recommended Resources</h3>
+          <div class="li"><span class="li-icon green">✔</span><span>LinkedIn Learning — Communication courses</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Coursera — "Soft Skills for Engineers"</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>YouTube — Mock interview videos for freshers</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>GUVI / Prepflix — IT interview prep platforms</span></div>
+          <div class="li"><span class="li-icon green">✔</span><span>Books — "The Tech Interview Handbook"</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: THANK YOU -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="header-icon">🎓</div>
+          <h2>Thank You</h2>
+        </div>
+        <span class="slide-num">17 / 17</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:24px;">
+        <div style="font-size:3.5rem;">🎓</div>
+        <h1 style="font-size:2.8rem; font-weight:800; letter-spacing:-0.03em; color:var(--ink);">You Are Ready.</h1>
+        <p style="font-size:1.1rem; color:var(--ink-light); max-width:600px; line-height:1.7;">
+          Soft skills are the bridge between your technical knowledge and your career success. Practice, stay confident, and remember — <strong>companies hire people, not just skills.</strong>
+        </p>
+        <div class="panel blue" style="max-width:600px; text-align:left;">
+          <p>💬 Your first impression is your introduction. Make it clear, simple, and confident.</p>
+        </div>
+        <p style="margin-top:20px; font-size:0.9rem; color:var(--muted);">
+          Prepared by <strong style="color:var(--ink);">Dr. Sachin Ambekar</strong> · Career Mentor &amp; Placement Consultant
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="brand">
+      <div class="brand-mark">SA</div>
+      <div class="brand-text">
+        <strong>Dr. Sachin Ambekar</strong>
+        <span>Career Mentor &amp; Placement Consultant</span>
+      </div>
+    </div>
+    <div class="dots" id="dotsContainer"></div>
+    <div class="nav-arrows">
+      <button class="nav-btn" id="prevBtn" disabled>←</button>
+      <button class="nav-btn" id="nextBtn">→</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    // Create dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.classList.add('dot');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateUI() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentIndex);
+      });
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === totalSlides - 1;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      currentIndex = index;
+      updateUI();
+    }
+
+    function nextSlide() {
+      if (currentIndex < totalSlides - 1) {
+        currentIndex++;
+        updateUI();
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateUI();
+      }
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) nextSlide();
+      if (touchEndX - touchStartX > 50) prevSlide();
+    }, { passive: true });
+
+    updateUI();
+  })();
+</script>
+
+</body>
+</html>
